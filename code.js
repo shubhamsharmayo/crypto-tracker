@@ -7,12 +7,12 @@ function fetchAndUpdateCryptoData() {
   const now = new Date();
   const timestamp = Utilities.formatDate(now, Session.getScriptTimeZone(), "yyyy-MM-dd'T'HH:mm:ss'Z'");
 
-  // Fetch CoinGecko API (with muteHttpExceptions to catch rate limit errors)
+  
   const response = UrlFetchApp.fetch(API_URL, { muteHttpExceptions: true });
   const statusCode = response.getResponseCode();
 
   if (statusCode === 429) {
-    // Rate limit exceeded
+    
     currentSheet.clearContents();
     currentSheet.appendRow(["Rate limit exceeded. Please wait before retrying."]);
     Logger.log("Rate limit exceeded: " + response.getContentText());
@@ -29,7 +29,7 @@ function fetchAndUpdateCryptoData() {
 
   const data = JSON.parse(response.getContentText());
 
-  // === CURRENT PRICES VIEW ===
+
   currentSheet.clearContents();
   currentSheet.appendRow([
     "Coin ID", "Symbol", "Name", "Current Price (USD)", "Market Cap (USD)", "24h % Change", "Last Updated", "Last Synced"
@@ -48,14 +48,14 @@ function fetchAndUpdateCryptoData() {
     ]);
   });
 
-  // === PRICE HISTORY VIEW ===
+
   data.forEach(coin => {
     historySheet.appendRow([
       timestamp,
       coin.id,
       coin.symbol,
       coin.name,
-      "", // Internal Ref Code
+      "", 
       coin.current_price,
       coin.market_cap,
       coin.price_change_percentage_24h
